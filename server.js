@@ -16,6 +16,7 @@ app.use(express.json()); // Para analisar JSON no corpo da requisição
 
 // Verifica se a chave secreta JWT está definida
 if (!process.env.JWT_SECRET) {
+  console.log("JWT_SECRET:", process.env.JWT_SECRET); // Verifique o valor da chave
     throw new Error('A chave secreta JWT não está definida.');
 }
 
@@ -86,6 +87,10 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Erro no servidor', details: error.message });
   }
 });
+
+
+const taskRoutes = require('./routes/tasks'); // Importando as rotas de tarefas
+app.use('/tasks', taskRoutes); // Definindo o prefixo das rotas de tarefas
 
 // Iniciando o servidor
 const PORT = process.env.PORT || 5000;
